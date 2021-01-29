@@ -1,0 +1,677 @@
+Building configuration...
+
+
+Current configuration : 17071 bytes
+!
+! Last configuration change at 20:25:13 CST Thu Jan 21 2021 by brbarba
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname Router-2851
+!
+boot-start-marker
+boot system flash c2800nm-adventerprisek9-mz.151-4.M12a.bin
+boot system flash c2800nm-adventerprisek9-mz.151-1.T.bin
+boot-end-marker
+!
+!
+!
+aaa new-model
+!
+!
+aaa authentication login userauthen local
+aaa authentication enable default line
+!
+!
+!
+!
+!
+aaa session-id common
+!
+clock timezone CST -6 0
+clock summer-time CST recurring
+!
+dot11 syslog
+ip source-route
+!
+!
+ip cef
+!
+ip dhcp excluded-address 172.16.1.230 172.16.1.254
+ip dhcp excluded-address 172.16.1.0 172.16.1.99
+ip dhcp excluded-address 172.16.2.230 172.16.2.254
+ip dhcp excluded-address 172.16.4.1 172.16.4.100
+ip dhcp excluded-address 172.16.4.200 172.16.4.254
+ip dhcp excluded-address 192.168.4.1 192.168.4.100
+ip dhcp excluded-address 192.168.4.200 192.168.4.254
+ip dhcp excluded-address 172.16.9.1 172.16.9.100
+ip dhcp excluded-address 172.16.9.200 172.16.9.254
+ip dhcp excluded-address 172.16.2.0 172.16.2.150
+!
+ip dhcp pool voice
+ network 172.16.9.0 255.255.255.0
+ default-router 172.16.9.254
+ option 150 ip 172.16.9.254
+ dns-server 8.8.8.8 8.8.4.4
+!
+!
+ip domain name bytech.com
+ip name-server 8.8.8.8
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+ctl-client
+!
+!
+voice service voip
+ allow-connections h323 to h323
+ allow-connections h323 to sip
+ allow-connections sip to h323
+ allow-connections sip to sip
+ supplementary-service h450.12
+ fax protocol pass-through g711alaw
+ sip
+  registrar server expires max 3600 min 120
+!
+!
+voice register global
+ mode cme
+ source-address 172.16.9.254 port 5060
+ max-dn 10
+ max-pool 10
+ load 9971 sip9971.9-1-1SR1.loads
+ timezone 9
+ create profile sync 0027621816292036
+ camera
+ video
+!
+voice register dn  1
+ number 1001
+ pickup-call any-group
+ pickup-group 30
+ name Monica Padilla
+ preference 2
+ huntstop
+ label Monica Padilla
+ mwi
+!
+voice register dn  2
+ number 1002
+ pickup-call any-group
+ pickup-group 30
+ name Bruno Barba
+ preference 3
+ huntstop
+ label Bruno Barba
+ mwi
+!
+voice register dn  3
+ number 1003
+ pickup-call any-group
+ pickup-group 30
+ name Bruno Barba
+ huntstop
+ label Bruno Barba
+ mwi
+!
+voice register dn  4
+ number 1004
+ pickup-call any-group
+ name Tlalpan
+ label Tlalpan
+ mwi
+!
+voice register dn  5
+ number 1005
+ name Abuela
+ label Abuela
+ mwi
+!
+voice register dn  6
+ number 1006
+ name Gym
+ label Gym
+ mwi
+!
+voice register dn  9
+ number 1009
+ name Ext 9
+ label Ext 9
+ mwi
+!
+voice register template  1
+ feature-button 4 DnD
+ feature-button 6 PickUp
+ feature-button 7 GpickUp
+!
+voice register pool  1
+ id mac E8ED.F3AA.2ACA
+ type 9971
+ number 1 dn 1
+ template 1
+ presence call-list
+ dtmf-relay rtp-nte
+ username mimo password 1234
+ codec g711alaw
+ no vad
+ speed-dial 1 95554517256 label "Bruno_Cel_1"
+ speed-dial 2 1006 label "Gym"
+ speed-dial 3 95566794097 label "John_Cel"
+ speed-dial 4 1002 label "HT"
+ speed-dial 5 1003 label "Bruno"
+ speed-dial 6 1006 label "Gym"
+!
+voice register pool  2
+ id mac 6886.A7C4.32D7
+ session-transport tcp
+ type 9971
+ number 1 dn 2
+ template 1
+ presence call-list
+ dtmf-relay rtp-nte
+ username brbarba password 1234
+ codec g711alaw
+ no vad
+ speed-dial 2 95516019071 label "Mimo_Cel"
+ speed-dial 3 1006 label "Gym"
+ speed-dial 5 95552671800 label "webex"
+ speed-dial 6 95552671800,,,205043686# label "room_webex"
+ speed-dial 7 1001 label "Mimo"
+!
+voice register pool  3
+ id mac 6886.A7C4.20F8
+ session-transport tcp
+ type 9971
+ number 1 dn 3
+ template 1
+ presence call-list
+ dtmf-relay rtp-nte
+ username brbarba2 password adgj
+ codec g711alaw
+ no vad
+ speed-dial 2 95516019071 label "Mimo_Cel"
+ speed-dial 3 1006 label "Gym"
+ speed-dial 5 95552671800 label "webex"
+ speed-dial 6 95552671800,,,205043686# label "room_webex"
+ speed-dial 7 1001 label "Mimo"
+!
+voice register pool  4
+ id mac 04DA.D2BE.A3B5
+ type 9971
+ number 1 dn 4
+ template 1
+ presence call-list
+ dtmf-relay rtp-nte
+ username tlalpan password /adg
+ codec g711alaw
+ no vad
+ speed-dial 1 95554517256 label "Bruno_Cel_1"
+ speed-dial 2 95532441669 label "Abuela_Cel"
+ speed-dial 3 1005 label "Abuela"
+ speed-dial 4 1003 label "Bruno"
+ speed-dial 5 1002 label "Bruno HT"
+ speed-dial 6 95521294758 label "Mama_Cel"
+ video
+!
+voice register pool  5
+ id mac 1C17.D341.8E15
+ type 9971
+ number 1 dn 5
+ presence call-list
+ dtmf-relay rtp-nte
+ username abuela password /adg
+ codec g711alaw
+ no vad
+ speed-dial 1 95554517256 label "Bruno_Cel_1"
+ speed-dial 2 95532441669 label "Livia_Cel"
+ speed-dial 3 1003 label "Bruno"
+ speed-dial 4 1004 label "Livia"
+ speed-dial 5 1002 label " Bruno HT"
+!
+voice register pool  6
+ id mac 00AF.1F9D.B264
+ type 9971
+ number 1 dn 6
+ presence call-list
+ dtmf-relay rtp-nte
+ username ext6 password 1234
+ codec g711alaw
+ no vad
+ speed-dial 1 95554517256 label "Bruno_Cel_1"
+ speed-dial 2 95516019071 label "Mimo_Cel"
+ speed-dial 3 1001 label "Mimo"
+ speed-dial 4 1003 label "Bruno"
+ speed-dial 5 1002 label "HT"
+!
+voice register pool  9
+ id mac D48C.B50B.355B
+ type 9971
+ number 1 dn 9
+ presence call-list
+ dtmf-relay rtp-nte
+ username ext9 password 1234
+ codec g711alaw
+ no vad
+!
+voice hunt-group 1 parallel
+ list 1003,1001,1002
+ timeout 120
+ pilot 2000
+!
+!
+!
+!
+!
+voice-card 0
+!
+crypto pki token default removal timeout 0
+!
+crypto pki trustpoint TP-self-signed-3017889413
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3017889413
+ revocation-check none
+ rsakeypair TP-self-signed-3017889413
+!
+!
+crypto pki certificate chain TP-self-signed-3017889413
+ certificate self-signed 01
+  3082024E 308201B7 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33303137 38383934 3133301E 170D3136 30373136 30313536
+  30325A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 30313738
+  38393431 3330819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100C727 4742FB6A 32300460 353BC4BA 29292315 7DC5FE4A 7FE94AEA 7B67D786
+  7891DA3F B1709F6E 6DDA8CB4 6698533E C55DD9B9 427DAC1D 222CBAD2 F7DBFFE1
+  69CDF148 784961E3 C4B902FE 6E7D964D 2B6BED46 BFF26ACE 0611382A 6E74786B
+  A7B89884 5D3F47EB 3C086286 0D0AF735 DE445544 B2F8A495 4DD1F6F8 382F0F35
+  FD290203 010001A3 76307430 0F060355 1D130101 FF040530 030101FF 30210603
+  551D1104 1A301882 16526F75 7465722D 32383531 2E627974 6563682E 636F6D30
+  1F060355 1D230418 30168014 2C58D165 5B61CC52 4AA39F86 1305FD96 D0D4EAA2
+  301D0603 551D0E04 1604142C 58D1655B 61CC524A A39F8613 05FD96D0 D4EAA230
+  0D06092A 864886F7 0D010104 05000381 8100989F 62D0C3DE 0D64C8C7 9200FDC5
+  E2FEB346 304D6976 8F69BB94 4118512C EABFF70A 35C295D3 62F1EEE5 4B74ED90
+  11C89E87 863004D3 CC1572EF 5F54AE63 69EB20AD AF8C68FE 283467D2 23CDB808
+  EBC82711 2A087DB2 11C01359 6B4174A4 5E7DCA45 3A842542 ACA2F90C 34C23B0D
+  F4378D2E 3CC034A0 2533AAAD 4A69ED20 C052
+        quit
+!
+!
+license udi pid CISCO2851 sn FTX1210A193
+username bbarba privilege 15 password 7 0448121500316C4604
+username brbarba privilege 15 password 7 13160E01041C242226
+username claudio password 7 030558021E0639
+username john password 7 055A545C75
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description OUTSIDE
+ mac-address 9818.886e.604d
+ ip address dhcp
+ ip access-group out_pub in
+ ip nat outside
+ no ip virtual-reassembly in
+ load-interval 30
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ load-interval 30
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.400
+ description Casa 4
+ encapsulation dot1Q 400
+ ip address 192.168.4.254 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/1.500
+ description Telmex
+ encapsulation dot1Q 500
+ ip address 192.168.1.254 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ shutdown
+!
+interface GigabitEthernet0/1.600
+ description to Bytech LAN
+ encapsulation dot1Q 600
+ ip address 172.16.1.254 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/1.700
+ description Infra LAN
+ encapsulation dot1Q 700
+ ip address 172.16.2.254 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/1.900
+ description voice
+ encapsulation dot1Q 900
+ ip address 172.16.9.254 255.255.255.0
+!
+interface Serial0/2/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0
+ ip address 172.16.3.254 255.255.255.0
+ shutdown
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip http path flash:
+!
+!
+ip nat source static udp 172.16.1.88 1194 interface GigabitEthernet0/0 1194
+ip nat source static tcp 172.16.1.250 1723 interface GigabitEthernet0/0 1723
+ip nat source static tcp 172.16.2.92 443 interface GigabitEthernet0/0 9002
+ip nat source static tcp 172.16.2.93 443 interface GigabitEthernet0/0 9003
+ip nat source static tcp 172.16.2.94 443 interface GigabitEthernet0/0 9004
+ip nat source static tcp 172.16.2.95 443 interface GigabitEthernet0/0 9005
+ip nat source static tcp 172.16.2.96 80 interface GigabitEthernet0/0 9006
+ip nat source static tcp 172.16.2.99 80 interface GigabitEthernet0/0 9009
+ip nat source static tcp 172.16.2.98 443 interface GigabitEthernet0/0 9008
+ip nat source static tcp 172.16.2.91 443 interface GigabitEthernet0/0 9001
+ip nat source static tcp 172.16.2.113 80 interface GigabitEthernet0/0 9013
+ip nat source static tcp 172.16.2.100 443 interface GigabitEthernet0/0 9010
+ip nat source static tcp 172.16.2.111 443 interface GigabitEthernet0/0 9011
+ip nat source static tcp 172.16.2.112 443 interface GigabitEthernet0/0 9012
+ip nat source static tcp 172.16.1.161 5201 interface GigabitEthernet0/0 5201
+ip nat source static tcp 172.16.1.161 5001 interface GigabitEthernet0/0 5001
+ip nat source static esp 172.16.1.250 interface GigabitEthernet0/0
+ip nat source static udp 172.16.1.250 500 interface GigabitEthernet0/0 500
+ip nat source static udp 172.16.1.250 4500 interface GigabitEthernet0/0 4500
+ip nat source static udp 172.16.1.250 1701 interface GigabitEthernet0/0 1701
+ip nat inside source list NAT interface GigabitEthernet0/0 overload
+ip nat inside source list NAT2 interface GigabitEthernet0/0 overload
+ip route 0.0.0.0 0.0.0.0 172.16.1.250
+ip route 192.168.1.0 255.255.255.0 172.16.1.2
+!
+ip access-list standard NAT
+ permit 172.16.0.0 0.0.255.255
+ permit 192.168.0.0 0.0.255.255
+ip access-list standard NAT2
+ permit 172.16.0.0 0.0.255.255
+ permit 192.168.0.0 0.0.255.255
+ permit 10.10.10.0 0.0.0.255
+!
+ip access-list extended NAT3
+ deny   ip 172.16.1.0 0.0.0.255 10.10.10.0 0.0.0.255
+ permit ip 172.16.0.0 0.0.255.255 any
+ permit ip 10.10.10.0 0.0.0.255 any
+ip access-list extended no-telnet
+ deny   tcp any any eq telnet
+ permit ip any any
+ip access-list extended out_pub
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 5060
+ deny   udp any any eq 5060
+ deny   tcp any any eq 1720
+ deny   udp any any eq 1720
+ permit ip any any
+!
+!
+!
+!
+!
+!
+tftp-server flash:SCCP11.8-5-3S.loads
+tftp-server flash:term06.default.loads
+tftp-server flash:term11.default.loads
+tftp-server flash:term42.default.loads
+tftp-server flash:term62.default.loads
+tftp-server flash:SCCP42.8-5-3S.loads
+tftp-server flash:term31.default.loads
+tftp-server flash:term41.default.loads
+tftp-server flash:term45.default.loads
+tftp-server flash:term61.default.loads
+tftp-server flash:term65.default.loads
+tftp-server flash:term70.default.loads
+tftp-server flash:term71.default.loads
+tftp-server flash:term75.default.loads
+tftp-server flash:SCCP31.8-5-3S.loads
+tftp-server flash:SCCP41.8-5-3S.loads
+tftp-server flash:SCCP45.8-5-3S.loads
+tftp-server flash:SCCP70.8-5-3S.loads
+tftp-server flash:SCCP75.8-5-3S.loads
+tftp-server flash:SCCP69xx.8-5-3-0.loads
+tftp-server flash:P0030801SR02.bin
+tftp-server flash:P0030801SR02.loads
+tftp-server flash:P0030801SR02.sb2
+tftp-server flash:P0030801SR02.sbn
+tftp-server flash:sip9971.9-1-1SR1.loads alias sip9971.9-1-1SR1.loads
+tftp-server flash:dkern9971.100609R2-9-1-1SR1.sebn alias dkern9971.100609R2-9-1-1SR1.sebn
+tftp-server flash:kern9971.9-1-1SR1.sebn alias kern9971.9-1-1SR1.sebn
+tftp-server flash:rootfs9971.9-1-1SR1.sebn alias rootfs9971.9-1-1SR1.sebn
+tftp-server flash:sboot9971.031610R1-9-1-1SR1.sebn alias sboot9971.031610R1-9-1-1SR1.sebn
+tftp-server flash:skern9971.022809R2-9-1-1SR1.sebn alias skern9971.022809R2-9-1-1SR1.sebn
+tftp-server flash:/Ringtones/DistinctiveRingList.xml alias DistinctiveRingList.x
+tftp-server flash:/Ringtones/Analog1.raw alias Analog1.raw
+tftp-server flash:/Ringtones/Analog2.raw alias Analog2.raw
+tftp-server flash:/Ringtones/Bass.raw alias Bass.raw
+tftp-server flash:/Ringtones/Chime.raw alias Chime.raw
+tftp-server flash:/Ringtones/Jamaica.raw alias Jamaica.raw
+tftp-server flash:/Ringtones/Pop.raw alias Pop.raw
+tftp-server flash:/Ringtones/Ringlist.xml alias Ringlist.xml
+tftp-server flash:/Ringtones/Pulse1.raw alias Pulse1.raw
+tftp-server flash:/Desktops/640x480x24/STW1.png alias STW1.png
+tftp-server flash:/Desktops/640x480x24/STW2.png alias STW2.png
+tftp-server flash:/Desktops/640x480x24/TN-STW1.png alias TN-STW1.png
+tftp-server flash:/Desktops/640x480x24/TN-STW2.png alias TN-STW2.png
+tftp-server flash:/Desktops/640x480x24/List.xml alias List.xml
+!
+!
+!
+control-plane
+!
+!
+voice-port 0/0/0
+ cptone MX
+ connection plar 2000
+ description Axtel
+ caller-id enable
+!
+voice-port 0/0/1
+ cptone MX
+ connection plar 2000
+ description Telmex
+ caller-id enable
+!
+!
+!
+mgcp profile default
+!
+!
+dial-peer voice 101 pots
+ description Local Calling Dial Peer
+ destination-pattern 9[1-9].........
+ direct-inward-dial
+ port 0/0/1
+ forward-digits 10
+!
+dial-peer voice 106 pots
+ description 800 numbers
+ destination-pattern 901800.......
+ direct-inward-dial
+ port 0/0/1
+ forward-digits 12
+!
+dial-peer voice 104 pots
+ description 10 digits
+ destination-pattern 9[1-9].........
+ direct-inward-dial
+ port 0/0/1
+ forward-digits 10
+!
+!
+!
+!
+telephony-service
+ no auto-reg-ephone
+ max-ephones 30
+ max-dn 30
+ ip source-address 172.16.9.254 port 2000
+ max-redirect 5
+ no service directed-pickup
+ system message Bytech & Eyeke
+ load 7906 SCCP11.8-5-3S.loads
+ load 7911 SCCP11.8-5-3S.loads
+ load 7921 CP7921G-1.3.3.loads
+ load 7925 CP7925G-1.3.3.loads
+ load 7931 SCCP31.8-5-3S.loads
+ load 7937 apps37sccp.1-2-1-0.bin
+ load 7960-7940 P0030801SR02.loads
+ load 7941 SCCP41.8-5-3S.loads
+ load 7942 SCCP42.8-5-3S.loads
+ load 7945 SCCP45.8-5-3S.loads
+ load 7961 SCCP41.8-5-3S.loads
+ load 7962 SCCP42.8-5-3S.loads
+ load 7965 SCCP45.8-5-3S.loads
+ load 7970 SCCP70.8-5-3S.loads
+ load 7971 SCCP70.8-5-3S.loads
+ load 7975 SCCP75.8-5-3S.loads
+ time-format 24
+ date-format dd-mm-yy
+ dialplan-pattern 2 5562713481 extension-length 4
+ max-conferences 8 gain -6
+ web admin system name brbarba secret 5 $1$22..$AmuabQoJMapSdM3f3iDmo/
+ transfer-system full-consult
+ directory entry 1 5554517256 name Bruno Barba Cel
+ create cnf-files version-stamp 7960 Jul 16 2016 15:45:48
+!
+!
+ephone-dn  3
+ number 1003
+ label Bruno Barba
+ name Bruno Barba
+!
+!
+ephone-dn  11  dual-line
+ number 1011
+ label Ext 11
+ name Ext 11
+!
+!
+ephone-dn  12  dual-line
+ number 1012
+ label Ext 12
+ name Ext 12
+!
+!
+ephone-dn  13  dual-line
+ number 1013
+ label Ext 13
+ name Ext 13
+!
+!
+ephone  1
+ device-security-mode none
+!
+!
+!
+ephone  3
+ device-security-mode none
+!
+!
+!
+ephone  11
+ device-security-mode none
+ mac-address 000D.657A.8640
+ button  1:11 2:12
+!
+!
+!
+ephone  12
+ device-security-mode none
+ mac-address 000D.657A.87E9
+ button  1:12 2:11
+!
+!
+!
+ephone  13
+ device-security-mode none
+ mac-address 9000.4E5A.767D
+ button  1:13 2:11
+!
+!
+!
+alias exec shm sh proc mem | inc Used
+alias exec sts show mpls traffic-eng tunnels summary
+alias exec u undebug all
+alias exec rt show ip route
+alias exec sx sh xcon al
+alias exec cfml sh ethernet cfm mai lo
+alias exec cfmr sh ethernet cfm mai re
+alias exec cfmd sh ethernet cfm do
+alias exec sid sh ethernet service instance id
+alias exec siib show ip inter brief
+alias exec sioi show ip ospf inter
+alias exec sion show ip ospf neigh
+alias exec sir show ip route
+alias exec srb show run | b
+alias exec sr show run
+alias exec cir clear ip route
+alias exec cm clear mpls counters
+alias exec cpu show proc cpu | include five
+alias exec ct conf t
+alias exec cc clear count
+alias exec ship sh ip int brief
+alias exec shup sh ip int brief | exc administratively down
+alias exec cp show proc cpu | exc  0.00%  0.00%  0.00%
+alias exec 877 telnet 172.16.1.2
+alias exec 3412 telnet 172.16.1.50
+alias exec 3402 telnet 172.16.1.51
+alias exec NM telnet 172.16.1.53
+alias exec 1841 telnet 172.16.1.1
+alias exec sentry telnet 172.16.1.80
+alias exec 3750 telnet 172.16.1.52
+alias exec openstack ssh -l brbarba 172.16.1.65
+!
+line con 0
+line aux 0
+line 66
+ no activation-character
+ no exec
+ transport preferred none
+ transport input all
+ transport output lat pad telnet rlogin lapb-ta mop udptn v120 ssh
+line vty 0 4
+ exec-timeout 60 0
+ password 7 1501121F0B3A0B2C25
+ transport input all
+line vty 5 30
+ exec-timeout 60 0
+ password 7 13160E01041C242226
+ transport input all
+!
+scheduler allocate 20000 1000
+ntp server pool.ntp.org
+end
+
+Router-2851#
