@@ -7,6 +7,12 @@ vmkfstools -z /vmfs/devices/disks/t10.ATA_____ST3000DM0012D1CH166_______________
 
 vmkfstools -z /vmfs/devices/disks/t10.ATA_____ST4000DM0042D2CV104__________________________________ZFN3KMZE "/vmfs/volumes/snap-15b16fbc-Internal/Disks/HGST_RDM_1.vmdk"
 
+
+
+t10.ATA_____ST3000DM0082D2DM166__________________________________Z504EJ6X
+vmkfstools -z /vmfs/devices/disks/t10.ATA_____ST3000DM0082D2DM166__________________________________Z504EJ6X "/vmfs/volumes/snap-15b16fbc-Internal/Disks/NAS3TB_RDM_1.vmdk"
+
+
 # Add a new SCSI controller
 # mount the new HDD to the VM
 # change the HDD to SCSI controller 1 0:1
