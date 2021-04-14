@@ -1,4 +1,9 @@
----------------------------------------------------------
+!  https://community.cisco.com/t5/collaboration-voice-and-video/block-incoming-calls-based-off-of-ani-incoming-or-originating/ta-p/3129236
+!  https://community.cisco.com/t5/other-collaboration-subjects/block-incoming-call-with-voice-translation-rule/td-p/299925
+!  https://haystacknetworks.com/pots-dialpeer-block-inbound-calls-based-on-clid-whitelist-example
+
+
+!---------------------------------------------------------
 voice translation-rule 222
 rule 1 reject /5584211232/
 
