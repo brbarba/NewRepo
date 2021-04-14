@@ -8,7 +8,7 @@ voice translation-rule 222
 rule 1 reject /5584211232/
 
 voice translation-profile call_block
-call-block disconnect-cause incoming call-reject
+translate calling 222
 
 dial-peer voice 201 pots
 call-block translation-profile incoming call_block
