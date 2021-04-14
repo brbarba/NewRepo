@@ -1,0 +1,13 @@
+---------------------------------------------------------
+voice translation-rule 222
+rule 1 reject /5584211232/
+
+voice translation-profile call_block
+call-block disconnect-cause incoming call-reject
+
+dial-peer voice 201 pots
+call-block translation-profile incoming call_block
+call-block disconnect-cause incoming call-reject
+incoming called-number .T
+direct-inward-dial
+port 0/0/0
